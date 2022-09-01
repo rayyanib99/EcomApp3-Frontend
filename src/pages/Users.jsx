@@ -105,7 +105,7 @@ const Users = () =>
 
     else
     {
-      var message = window.confirm("CAUTION: " + fName + " " + lName + " will be deleted permanently.");
+      var message = window.confirm("CAUTION: Account of " + fName + " " + lName + " will be deleted permanently.");
       if(message === true)
       {
         await axios.delete(`http://localhost:8080/api/users/${id}`)
