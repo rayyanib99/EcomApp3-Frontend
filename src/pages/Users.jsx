@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import userServices from '../services/userServices';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
@@ -8,6 +7,7 @@ import Categories from '../components/Categories';
 import { useNavigate } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import axios from "axios";
 
 const Container = styled.div
     `overflow: hidden;`
@@ -87,16 +87,16 @@ const Users = () =>
 
   let navigate = useNavigate();
 
-  const init = () =>
+  const init = async () =>
   {
-    userServices.getAllUsers()
+    await axios.get('http://localhost:8080/api/users/')
     .then(response =>
     {
       setUsers(response.data);
     })
   };
 
-  const Delete = (id, fName, lName) =>
+  const Delete = async (id, fName, lName) =>
   {
     if(fName === "Administrator")
     {
@@ -108,7 +108,7 @@ const Users = () =>
       var message = window.confirm("CAUTION: " + fName + " " + lName + " will be deleted permanently.");
       if(message === true)
       {
-        userServices.deleteUser(id)
+        await axios.delete(`http://localhost:8080/api/users/${id}`)
         .then(() => 
           {
               init();
